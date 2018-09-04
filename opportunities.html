@@ -1,6 +1,13 @@
-<html>
+<!doctype html>
+<html lang="en">
   <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Checkout</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script language="javascript">
       function getParameterByName(name, url) {
         if (!url) url = window.location.href;
@@ -13,20 +20,45 @@
       }
 
       $(function() {
-        $(".activation-id").text(getParameterByName("actID0"));
-        $(".product-name").text(getParameterByName("prodName0"));
+        var numItems = parseInt(getParameterByName("numItems"), 10);
+
+        for (var i = 0; i < numItems; i++) {
+          var item = $($("#template").text());
+          item.find(".org-name").text(getParameterByName("orgName" + i));
+          item.find(".prod-name").text(getParameterByName("prodName" + i));
+          item.find(".prod-version").text(getParameterByName("prodVersion" + i));
+          item.find(".act-id").text(getParameterByName("actID" + i));
+          item.find(".start-date").text(getParameterByName("startDate" + i));
+          item.find(".exp-date").text(getParameterByName("expDate" + i));
+          item.find(".num-copies").text(getParameterByName("numCopies" + i));
+          $("#data tbody").append(item);
+        }
       });
     </script>
   </head>
 
-  <body>
-    <div>
-      The line item for <span class="product-name"></span>:
-      <span class="activation-id"></span>
-    </div>
+  <body class="bg-light">
+    <script type="text/x-tmpl" id="template">
+      <tr>
+        <td class="org-name"></td>
+        <td class="prod-name"></td>
+        <td class="prod-version"></td>
+        <td class="act-id"></td>
+        <td class="start-date"></td>
+        <td class="exp-date"></td>
+        <td class="num-copies"></td>
+      </tr>
+    </script>
 
-    <div>
-      This is brought to you by <span class="product-name"></span>
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <table id="data" class="table">
+            <tbody>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </body>
 </html>
